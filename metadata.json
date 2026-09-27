@@ -1,0 +1,6 @@
+{
+  "name": "명결(命結) AI 사주 · 인생차트",
+  "description": "태어난 순간의 운명과 인연을 잇는 현대적 AI 사주명리 및 통합 인생차트 플랫폼",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

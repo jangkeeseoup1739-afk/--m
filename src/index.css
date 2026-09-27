@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+    /* 캔버스 기본색(폴백) — 아래 오로라 레이어가 덮입니다 */
+    background-color: #2a1c73;
+    color: #e2e8f0;
+    overflow-x: hidden;
+  }
+
+  .font-serif-kr {
+    font-family: 'Noto Serif KR', Georgia, serif;
+  }
+
+  .font-brand {
+    font-family: 'Cinzel', 'Noto Serif KR', serif;
+  }
+}
+
+/* ===================================================================
+   바탕화면: 천체 오로라 배경
+   - body::before  = 컬러 그라데이션(오로라) 레이어, 천천히 흐름
+   - body::after   = 별빛 레이어, 은은하게 반짝임
+   둘 다 position:fixed + pointer-events:none 이라
+   스크롤/클릭/레이아웃에 전혀 영향을 주지 않습니다.
+   =================================================================== */
+
+body::before {
+  content: '';
+  position: fixed;
+  /* 움직일 때 가장자리가 보이지 않도록 화면보다 크게 */
+  inset: -25%;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    /* 좌상단 — 금빛 */
+    radial-gradient(44% 38% at 14% 10%, rgba(255, 196, 92, 0.55), transparent 62%),
+    /* 우상단 — 자홍빛 */
+    radial-gradient(42% 36% at 86% 6%,  rgba(255, 104, 196, 0.52), transparent 62%),
+    /* 우측 중단 — 청록빛 */
+    radial-gradient(38% 34% at 96% 40%, rgba(64, 226, 226, 0.40), transparent 64%),
+    /* 우하단 — 하늘빛 */
+    radial-gradient(48% 42% at 88% 74%, rgba(86, 178, 255, 0.50), transparent 64%),
+    /* 좌하단 — 보랏빛 */
+    radial-gradient(46% 40% at 6% 86%,  rgba(172, 120, 255, 0.56), transparent 64%),
+    /* 좌측 중단 — 산호빛 */
+    radial-gradient(34% 30% at 2% 46%,  rgba(255, 138, 128, 0.34), transparent 64%),
+    /* 중앙 — 깊이감을 주는 인디고 */
+    radial-gradient(66% 56% at 50% 46%, rgba(112, 68, 214, 0.52), transparent 72%),
+    /* 베이스 그라데이션 */
+    linear-gradient(158deg, #3d2596 0%, #4a2ba8 24%, #34309a 48%, #23468f 74%, #1b4f86 100%);
+  animation: aurora-drift 30s ease-in-out infinite alternate;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  /* 타일 크기를 서로 다르게 줘서 격자처럼 보이지 않게 함 */
+  background-image:
+    radial-gradient(1.6px 1.6px at 20% 30%, rgba(255, 246, 224, 0.95), transparent 60%),
+    radial-gradient(1.2px 1.2px at 71% 13%, rgba(255, 255, 255, 0.80), transparent 60%),
+    radial-gradient(1.9px 1.9px at 44% 77%, rgba(255, 226, 170, 0.88), transparent 60%),
+    radial-gradient(1.1px 1.1px at 87% 61%, rgba(206, 234, 255, 0.82), transparent 60%),
+    radial-gradient(1.5px 1.5px at 9% 88%,  rgba(255, 255, 255, 0.72), transparent 60%),
+    radial-gradient(1.3px 1.3px at 58% 41%, rgba(232, 214, 255, 0.78), transparent 60%);
+  background-size:
+    320px 320px, 263px 263px, 411px 411px,
+    347px 347px, 289px 289px, 233px 233px;
+  animation: star-twinkle 8s ease-in-out infinite alternate;
+}
+
+@keyframes aurora-drift {
+  0%   { transform: translate3d(0, 0, 0)          scale(1); }
+  50%  { transform: translate3d(2%, -1.6%, 0)     scale(1.07); }
+  100% { transform: translate3d(-1.6%, 2%, 0)     scale(1.03); }
+}
+
+@keyframes star-twinkle {
+  0%   { opacity: 0.45; }
+  100% { opacity: 0.95; }
+}
+
+/* 모션 최소화를 켠 사용자에게는 애니메이션을 끕니다 */
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after {
+    animation: none;
+  }
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #1a1442;
+}
+::-webkit-scrollbar-thumb {
+  background: #5b4a9e;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8472c9;
+}
